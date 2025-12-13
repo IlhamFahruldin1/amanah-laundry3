@@ -1,0 +1,503 @@
+/* =========================================================
+   RESET & VARIABLE
+========================================================= */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  --primary-blue: #A8D8D8;
+  --dark-gray: #1a1a1a;
+  --orange: #E89860;
+  --light-gray: #F5F5F5;
+  --text-gray: #666666;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: var(--dark-gray);
+  line-height: 1.6;
+  background-color:var(--primary-blue);
+}
+
+/* =========================================================
+   NAVBAR
+========================================================= */
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--dark-gray);
+}
+
+.nav-menu {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+}
+
+.nav-menu a {
+  text-decoration: none;
+  color: var(--dark-gray);
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.nav-menu a:hover {
+  color: var(--orange);
+}
+
+.nav_btn {
+  display: flex;
+}
+
+.nav_btn a {
+  color: black;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.nav_btn .btn {
+  padding: 0.5rem 2rem;
+  outline: none;
+  border: none;
+  font-size: 0.75rem;
+  white-space: nowrap;
+  border-radius: 5px;
+  transition: 0.3s;
+  cursor: pointer;
+  background-color: rgb(99, 214, 176);
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+}
+
+.hamburger span {
+  width: 25px;
+  height: 3px;
+  background-color: var(--dark-gray);
+  margin: 5px 0;
+  border-radius: 2px;
+  transition: 0.3s;
+}
+
+/* =========================================================
+   HERO SECTION
+========================================================= */
+.hero {
+  position: relative;
+  background: linear-gradient(135deg, #A8D8D8 0%, #B5E3E3 100%);
+  padding: 3rem 2rem 200px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 3rem;
+  min-height: 500px;
+  overflow: visible !important;
+}
+
+.hero-content {
+  flex: 1;
+  max-width: 500px;
+}
+
+.hero-content h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+}
+
+.hero-content p {
+  font-size: clamp(0.9rem, 2vw, 1rem);
+  color: var(--text-gray);
+  margin-bottom: 2rem;
+  line-height: 1.8;
+}
+
+.cta-button {
+  background-color: var(--orange);
+  color: white;
+  padding: 0.8rem 2rem;
+  border: none;
+  border-radius: 14px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  display: inline-block;
+  text-decoration: none;
+}
+
+.cta-button:hover {
+  background-color: #D77E42;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(232, 152, 96, 0.3);
+}
+
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  max-width: 500px;
+}
+
+.hero-image img {
+  width: 100%;
+  height: auto;
+  border-radius: 30px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  
+}
+
+/* --- Hero Image Wrapper & Badge --- */
+.hero-image-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.hero-main-img {
+  width: 380px;
+  border-radius: 20px;
+}
+
+.hero-badge {
+  position: absolute;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 14px;
+  padding: 10px 16px;
+  font-weight: 600;
+  font-size: 14px;
+  color: #222;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.hero-badge:hover {
+  transform: scale(1.08);
+  background: rgba(255, 255, 255, 0.45);
+}
+
+/* Badge Positions */
+.badge-top { top: 5%; right: 68%; }
+.badge-middle { top: 35%; right: 1%; }
+.badge-left { top: 50%; left: 9%; }
+.badge-bottom { bottom: 10%; right: 12%; }
+
+/* =========================================================
+   LAUNDRY SECTION
+========================================================= */
+.laundry-section {
+  position: relative;
+  padding: 200px 18px 28px;
+  overflow: hidden;
+  background: var(--light-gray);
+}
+
+.laundry-inner {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 22px;
+  max-width: 1100px;
+  margin: 0 auto;
+  align-items: center;
+  padding-left: 18px;
+}
+
+.visual {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-wrap {
+  width: 100%;
+  max-width: 320px;
+  border-radius: 24px;
+  overflow: hidden;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.img-wrap img {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+}
+
+.content {
+  padding: 6px 4px;
+}
+
+.title {
+  margin: 0 0 10px 0;
+  font-size: 26px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.title-teks {
+  margin: 0 0 18px 0;
+  color: #555;
+  font-size: 15px;
+}
+
+.features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 14px;
+}
+
+.features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 15px;
+}
+
+.feature-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   KOTAK FITUR TENGAH ("LAYANAN KAMI")
+========================================================= */
+.features-card {
+  position: absolute;
+  left: 50%;
+  bottom: -100px;
+  transform: translateX(-50%);
+  z-index: 10;
+  width: 90%;
+  max-width: 1100px;
+}
+
+.card-inner {
+  background: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 30px 20px;
+}
+
+.features-grid {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+  align-items: center;
+  justify-items: center;
+}
+
+.features-grid li {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+}
+
+/* Ikon Badge */
+.feature-badge {
+  width: 60px;
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  background: #eaf9f6;
+  font-size: 26px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+}
+
+.feature-label {
+  font-weight: 600;
+  color: #155e56;
+  font-size: 15px;
+}
+
+.features-title {
+  text-align: center;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: #155e56;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.features-title::after {
+  content: "";
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60px;
+  height: 3px;
+  background-color: var(--orange);
+  border-radius: 2px;
+}
+
+
+/* =========================================================
+   RESPONSIVE STYLES
+========================================================= */
+
+/* --- Navbar --- */
+@media (max-width: 768px) {
+  nav {
+    padding: 1rem 1.5rem;
+  }
+
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    left: 0;
+    width: 100%;
+    flex-direction: column;
+    backdrop-filter: blur(10px);
+    background: rgba(156, 156, 156, 0.3);
+    gap: 0;
+    padding: 1rem;
+  }
+
+  .nav-menu.active {
+    display: flex;
+  }
+
+  .nav-menu li {
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .hamburger {
+    display: flex;
+  }
+
+  .nav_btn {
+    display: none;
+  }
+}
+
+/* --- Hero --- */
+@media (max-width: 768px) {
+  .hero {
+    flex-direction: column;
+    padding: 2rem 1rem;
+    min-height: auto;
+    gap: 2rem;
+  }
+
+  .hero-content h1 {
+    font-size: 1.8rem;
+  }
+
+  .hero-image {
+    order: -1;
+    max-width: 100%;
+  }
+
+  .hero-badge {
+    font-size: 12px;
+    padding: 8px 10px;
+  }
+
+  .badge-top { top: 5%; right: 65%; }
+  .badge-middle { top: 35%; right: 2%; }
+  .badge-left { top: 50%; left: 5%; }
+  .badge-bottom { bottom: 10%; right: 7%; }
+}
+
+/* --- Laundry Section --- */
+@media (min-width: 768px) {
+  .laundry-section {
+    padding: 48px 36px;
+  }
+
+  .laundry-inner {
+    grid-template-columns: 1fr 1fr;
+    gap: 36px;
+    align-items: center;
+  }
+
+  .img-wrap {
+    max-width: 400px;
+    border-radius: 36px;
+  }
+
+  .title {
+    font-size: 38px;
+  }
+
+  .subtitle {
+    font-size: 16px;
+  }
+
+  .features li {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1100px) {
+  .laundry-inner {
+    max-width: 1200px;
+  }
+
+  .title {
+    font-size: 46px;
+  }
+}
+
+/* --- Kotak Fitur Tengah --- */
+@media (min-width: 720px) {
+  .features-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .card-inner {
+    padding: 40px 30px;
+    border-radius: 28px;
+  }
+
+  .features-card {
+    bottom: -130px;
+  }
+}
+
+/* --- Hero & Laundry Padding Adjustment --- */
+.hero {
+  padding-bottom: 280px !important;
+}
+
+.laundry-section {
+  padding-top: 200px !important;
+}

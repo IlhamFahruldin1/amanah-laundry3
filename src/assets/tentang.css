@@ -1,0 +1,205 @@
+.about-page {
+  width: 100%;
+  background: #ececec;
+  padding-bottom: 60px;
+}
+
+/* HERO */
+.about-hero {
+  text-align: center;
+  padding: 40px 20px;
+}
+
+.about-hero h1 {
+  font-size: 32px;
+  color: #0d2d62;
+}
+
+.about-breadcrumb {
+  margin-top: 5px;
+  color: #6a7ba2;
+}
+
+/* INTRO SECTION */
+.about-intro {
+  max-width: 1100px;
+  margin: 40px auto;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  padding: 0 20px;
+}
+
+.intro-left {
+  flex: 1;
+}
+
+.about-image-container {
+  max-width: 450px;        /* batasi ukuran maksimal gambar */
+  width: 100%;
+  margin: auto;
+  border-radius: 20px;     /* sudut melengkung seperti desain modern */
+  overflow: hidden;
+  background: #ffffff;     /* latar belakang putih */
+  padding: 20px;           /* ruang dalam */
+  box-shadow: 0 6px 25px rgba(0,0,0,0.1);  /* bayangan halus */
+}
+
+.about-image-container img {
+  width: 100%;
+  height: auto;
+  object-fit: contain;     /* gambar tetap proporsional */
+  display: block;
+}
+
+
+.intro-subtitle {
+  color: #4a85ff;
+  font-weight: bold;
+}
+
+.intro-left h2 {
+  font-size: 28px;
+  margin-top: 10px;
+  color: #0d2d62;
+}
+
+.intro-desc {
+  margin: 15px 0;
+  color: #4d4d4d;
+}
+
+.intro-features {
+  list-style: none;
+  padding: 0;
+}
+
+.intro-features li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 8px 0;
+  color: #4d4d4d;
+}
+
+/* CONTACT BOX */
+.contact-box {
+  margin-top: 30px;
+  padding: 18px;
+  border: 1px solid #e2e2e2;
+  border-radius: 14px;
+  width: 260px;
+  background: #fff;
+  box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.08);
+}
+
+.contact-button {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #007bff;
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 10px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+
+/* VISI MISI */
+.visi-misi {
+  max-width: 1100px;
+  margin: 60px auto;
+  display: flex;
+  gap: 50px;
+  padding: 0 20px;
+}
+
+.visi, .misi {
+  flex: 1;
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+}
+
+.visi h3, .misi h3 {
+  color: #0d2d62;
+}
+
+/* SERVICES */
+.services {
+  text-align: center;
+  max-width: 1100px;
+  margin: 50px auto;
+}
+
+.services h2 {
+  font-size: 28px;
+  color: #0d2d62;
+}
+
+.service-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 25px;
+  margin-top: 25px;
+}
+
+.service-card {
+  background: #fff;
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.service-icon {
+  font-size: 32px;
+  color: #4a85ff;
+  margin-bottom: 15px;
+}
+
+/* STATS */
+.stats {
+  margin-top: 60px;
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  text-align: center;
+}
+
+.stat-box h3 {
+  font-size: 32px;
+  color: #0d2d62;
+}
+
+.stat-box p {
+  color: #4d4d4d;
+}
+
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .about-intro {
+    flex-direction: column;
+  }
+
+  .visi-misi {
+    flex-direction: column;
+  }
+
+  .service-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .stats {
+    flex-direction: column;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .service-grid {
+    grid-template-columns: 1fr;
+  }
+}

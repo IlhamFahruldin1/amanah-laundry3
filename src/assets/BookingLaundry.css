@@ -1,0 +1,106 @@
+.booking-section {
+  width: 100%;
+  padding: 60px 20px;
+  background: #f7f9fc;
+}
+
+.booking-container {
+  display: flex;
+  gap: 40px;
+  max-width: 1200px;
+  margin: auto;
+  align-items: flex-start;
+}
+
+.booking-left {
+  flex: 1;
+}
+
+.booking-left h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #222;
+}
+
+.highlight {
+  color: #2f6bff;
+}
+
+.subtext {
+  margin: 10px 0 25px;
+  font-size: 1rem;
+  color: #555;
+}
+
+.image-wrapper {
+  position: relative;
+}
+
+.image-wrapper img {
+  width: 100%;
+  border-radius: 12px;
+}
+
+.order-now-btn {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  background: #ffca28;
+  padding: 14px 20px;
+  border-radius: 40px;
+  border: none;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.order-now-btn .order-sub {
+  font-size: 12px;
+  margin-top: -3px;
+}
+
+.booking-right {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
+
+.step-item {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+  background: #fff;
+  padding: 15px 20px;
+  border-radius: 12px;
+  border: 1px solid #eee;
+}
+
+.step-number {
+  min-width: 40px;
+  height: 40px;
+  background: #ffca28;
+  border-radius: 50%;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.step-item h3 {
+  margin: 0 0 3px;
+}
+
+.order-wrapper {
+  margin-top: 10px;
+}
+
+.order-now-btn.big {
+  position: static;
+  width: 200px;
+  text-align: center;
+  align-items: center;
+}
