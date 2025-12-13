@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LayananCard from "./LayananCard";
-import "../assets/layanan.css";
+import "../assets/Layanan.css";
 
 export default function Layanan({ limit }) {
   const [data, setData] = useState([]);
