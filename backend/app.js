@@ -147,3 +147,11 @@ const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log("Backend running on port " + PORT);
 });
+
+app.get("/", (req, res) => {
+  res.json({
+    status: "OK",
+    message: "Amanah Laundry API is running"
+  });
+});
+
