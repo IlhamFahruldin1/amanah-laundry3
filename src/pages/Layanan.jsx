@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import LayananCard from "../components/LayananCard";
-import "../assets/layanan.css";
+import "../assets/Layanan.css";
 import Footer from "../components/Footer";
 
 export default function Layanan() {
