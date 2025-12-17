@@ -1,0 +1,53 @@
+.admin-kategori-page {
+  padding: 20px;
+}
+
+.error-text {
+  color: #dc2626;
+  margin-bottom: 10px;
+}
+
+.kategori-form {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.kategori-form input {
+  flex: 1;
+  padding: 8px;
+}
+
+.kategori-form button {
+  padding: 8px 16px;
+  background: #16a34a;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.kategori-list {
+  list-style: none;
+  padding: 0;
+}
+
+.kategori-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #fff;
+  padding: 10px 14px;
+  border-radius: 8px;
+  margin-bottom: 10px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.btn-delete {
+  background: #dc2626;
+  color: white;
+  border: none;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+}

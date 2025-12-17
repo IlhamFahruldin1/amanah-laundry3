@@ -1,5 +1,8 @@
 // src/admin/pages/KelolaKategori.jsx
 import { useEffect, useState } from "react";
+import "../admin-kategori.css";
+
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function KelolaKategori() {
   const [kategori, setKategori] = useState([]);
@@ -7,18 +10,17 @@ export default function KelolaKategori() {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // gunakan key "token" (sama dengan yang disimpan di AdminLogin.jsx)
   const token = localStorage.getItem("token");
 
   async function loadKategori() {
     try {
       setError("");
-      const res = await fetch("http://localhost:3001/kategori");
+      const res = await fetch(`${API_URL}/kategori`);
       if (!res.ok) throw new Error("Gagal memuat kategori");
       const data = await res.json();
       setKategori(data);
     } catch (err) {
-      console.error("loadKategori error:", err);
+      console.error(err);
       setError("Gagal memuat kategori");
     }
   }
@@ -33,27 +35,23 @@ export default function KelolaKategori() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/kategori", {
+      const res = await fetch(`${API_URL}/kategori`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer " + token, // <- kirim token
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify({ nama }),
       });
 
       const data = await res.json();
-
-      if (!res.ok) {
-        console.error("tambahKategori failed:", data);
-        throw new Error(data?.message || "Gagal tambah kategori");
-      }
+      if (!res.ok) throw new Error(data?.message || "Gagal tambah kategori");
 
       setNama("");
-      await loadKategori();
+      loadKategori();
     } catch (err) {
-      console.error("tambahKategori error:", err);
-      setError("Gagal menambah kategori (cek token / server)");
+      console.error(err);
+      setError("Gagal menambah kategori");
     } finally {
       setLoading(false);
     }
@@ -66,20 +64,19 @@ export default function KelolaKategori() {
     setError("");
 
     try {
-      const res = await fetch("http://localhost:3001/kategori/" + id, {
+      const res = await fetch(`${API_URL}/kategori/${id}`, {
         method: "DELETE",
-        headers: { Authorization: "Bearer " + token },
+        headers: {
+          Authorization: "Bearer " + token,
+        },
       });
 
-      if (!res.ok) {
-        const data = await res.json().catch(() => ({}));
-        throw new Error(data?.message || "Gagal menghapus kategori");
-      }
+      if (!res.ok) throw new Error("Gagal menghapus kategori");
 
-      await loadKategori();
+      loadKategori();
     } catch (err) {
-      console.error("hapusKategori error:", err);
-      setError("Gagal menghapus kategori (cek token / server)");
+      console.error(err);
+      setError("Gagal menghapus kategori");
     } finally {
       setLoading(false);
     }
@@ -87,16 +84,15 @@ export default function KelolaKategori() {
 
   useEffect(() => {
     loadKategori();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
-    <div style={{ padding: 20 }}>
+    <div className="admin-kategori-page">
       <h2>Kelola Kategori</h2>
 
-      {error && <p style={{ color: "red" }}>{error}</p>}
+      {error && <p className="error-text">{error}</p>}
 
-      <div style={{ display: "flex", gap: 8, marginBottom: 12 }}>
+      <div className="kategori-form">
         <input
           type="text"
           placeholder="Nama kategori"
@@ -108,13 +104,15 @@ export default function KelolaKategori() {
         </button>
       </div>
 
-      <ul>
+      {kategori.length === 0 && <p>Belum ada kategori.</p>}
+
+      <ul className="kategori-list">
         {kategori.map((k) => (
-          <li key={k.id_kategori} style={{ marginBottom: 8 }}>
-            {k.nama}
+          <li key={k.id_kategori} className="kategori-item">
+            <span>{k.nama}</span>
             <button
+              className="btn-delete"
               onClick={() => hapusKategori(k.id_kategori)}
-              style={{ marginLeft: 10 }}
               disabled={loading}
             >
               Hapus

@@ -138,6 +138,7 @@ export default function KelolaLayanan() {
     <div className="admin-layanan-page">
       <h2>Kelola Layanan</h2>
 
+      {/* FORM */}
       <form className="form-layanan" onSubmit={handleSubmit}>
         <h3>{editingId ? "Edit Layanan" : "Tambah Layanan"}</h3>
 
@@ -164,29 +165,58 @@ export default function KelolaLayanan() {
         <input ref={fileInputRef} type="file" multiple accept="image/*" onChange={handleFiles} />
 
         <div className="form-actions">
-          <button type="submit">{editingId ? "Update" : "Tambah"}</button>
-          <button type="button" onClick={resetForm}>Reset</button>
+          <button type="submit" className="btn-save">
+            {editingId ? "Update" : "Tambah"}
+          </button>
+          <button type="button" className="btn-cancel" onClick={resetForm}>
+            Reset
+          </button>
         </div>
       </form>
 
+      {/* LIST */}
       <div className="list-layanan">
         {layanan.length === 0 && <p>Belum ada layanan.</p>}
 
         {layanan.map((item) => (
           <div className="card-admin" key={item.id_layanan}>
-            <img
-              src={
-                item.images?.length
-                  ? `${API_URL}/uploads_layanan/${item.images[0]}`
-                  : "https://via.placeholder.com/300x180?text=No+Image"
-              }
-              alt={item.nama}
-            />
-            <h4>{item.nama}</h4>
-            <p>{item.deskripsi}</p>
-            <span>Rp {Number(item.harga).toLocaleString("id-ID")}</span>
-            <button onClick={() => startEdit(item)}>Edit</button>
-            <button onClick={() => handleDelete(item.id_layanan)}>Hapus</button>
+            <div className="card-img">
+              <img
+                src={
+                  item.images?.length
+                    ? `${API_URL}/uploads_layanan/${item.images[0]}`
+                    : "https://via.placeholder.com/300x180?text=No+Image"
+                }
+                alt={item.nama}
+              />
+            </div>
+
+            <div className="card-body">
+              <h4>{item.nama}</h4>
+              <p className="small">{item.deskripsi}</p>
+
+              <div className="meta">
+                <span>Rp {Number(item.harga).toLocaleString("id-ID")}</span>
+                <span className="kat">{item.nama_kategori || "-"}</span>
+              </div>
+
+              <div className="card-actions">
+                <button
+                  type="button"
+                  className="btn-edit"
+                  onClick={() => startEdit(item)}
+                >
+                  Edit
+                </button>
+                <button
+                  type="button"
+                  className="btn-delete"
+                  onClick={() => handleDelete(item.id_layanan)}
+                >
+                  Hapus
+                </button>
+              </div>
+            </div>
           </div>
         ))}
       </div>
