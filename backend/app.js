@@ -12,19 +12,17 @@ const app = express();
 /* =========================
    CORS & BODY PARSER
 ========================= */
-app.use(cors({
-  origin: "*"
-}));
+app.use(cors({ origin: "*" }));
 app.use(express.json());
 
 /* =========================
-   STATIC FOLDER (WAJIB)
+   STATIC FILES
 ========================= */
 app.use("/uploads", express.static("uploads"));
 app.use("/uploads_layanan", express.static("uploads_layanan"));
 
 /* =========================
-   ADMIN AUTH (DEMO)
+   ADMIN AUTH
 ========================= */
 const ADMIN_USER = "admin";
 const ADMIN_PASS = "12345";
@@ -44,17 +42,15 @@ function verifyAdmin(req, res, next) {
 
 app.post("/admin/login", (req, res) => {
   const { username, password } = req.body;
-
   if (username === ADMIN_USER && password === ADMIN_PASS) {
     const token = jwt.sign({ role: "admin" }, JWT_SECRET, { expiresIn: "2h" });
     return res.json({ success: true, token });
   }
-
-  res.status(401).json({ success: false, message: "Login gagal" });
+  res.status(401).json({ success: false });
 });
 
 /* =========================
-   MULTER SETUP
+   MULTER
 ========================= */
 const ensureDir = (dir) => {
   if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
@@ -64,23 +60,22 @@ ensureDir("uploads");
 ensureDir("uploads_layanan");
 
 const storageTestimoni = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, "uploads"),
+  destination: "uploads",
   filename: (_, file, cb) =>
-    cb(null, Date.now() + "-" + Math.random().toString(36).slice(2) + path.extname(file.originalname)),
+    cb(null, Date.now() + "-" + file.originalname),
+});
+
+const storageLayanan = multer.diskStorage({
+  destination: "uploads_layanan",
+  filename: (_, file, cb) =>
+    cb(null, Date.now() + "-" + file.originalname),
 });
 
 const uploadTestimoni = multer({ storage: storageTestimoni });
-
-const storageLayanan = multer.diskStorage({
-  destination: (_, __, cb) => cb(null, "uploads_layanan"),
-  filename: (_, file, cb) =>
-    cb(null, Date.now() + "-" + Math.random().toString(36).slice(2) + path.extname(file.originalname)),
-});
-
 const uploadLayanan = multer({ storage: storageLayanan });
 
 /* =========================
-   SQLITE DATABASE
+   DATABASE
 ========================= */
 const db = await open({
   filename: "./database.db",
@@ -88,18 +83,19 @@ const db = await open({
 });
 
 /* =========================
-   ROUTES
+   TESTIMONI
 ========================= */
-
-// TESTIMONI
 app.get("/testimoni", async (_, res) => {
   const rows = await db.all("SELECT * FROM testimoni ORDER BY id_testimoni DESC");
-  res.json(rows.map(r => ({ ...r, images: r.images ? JSON.parse(r.images) : [] })));
+  res.json(rows.map(r => ({
+    ...r,
+    images: r.images ? JSON.parse(r.images) : []
+  })));
 });
 
 app.post("/testimoni", uploadTestimoni.array("images", 10), async (req, res) => {
-  const { nama, pesan, rating } = req.body;
   const images = JSON.stringify(req.files.map(f => f.filename));
+  const { nama, pesan, rating } = req.body;
 
   await db.run(
     `INSERT INTO testimoni (nama, pesan, rating, images, waktu_dibuat)
@@ -111,23 +107,31 @@ app.post("/testimoni", uploadTestimoni.array("images", 10), async (req, res) => 
 });
 
 app.delete("/testimoni/:id", verifyAdmin, async (req, res) => {
-  const row = await db.get("SELECT images FROM testimoni WHERE id_testimoni = ?", [req.params.id]);
-  if (!row) return res.status(404).json({ error: "Not found" });
-
-  JSON.parse(row.images || "[]").forEach(f => {
-    try { fs.unlinkSync(`uploads/${f}`); } catch {}
-  });
-
-  await db.run("DELETE FROM testimoni WHERE id_testimoni = ?", [req.params.id]);
+  await db.run("DELETE FROM testimoni WHERE id_testimoni=?", [req.params.id]);
   res.json({ success: true });
 });
 
-// KATEGORI
+/* =========================
+   KATEGORI
+========================= */
 app.get("/kategori", async (_, res) => {
   res.json(await db.all("SELECT * FROM kategori ORDER BY id_kategori DESC"));
 });
 
-// LAYANAN
+app.post("/kategori", verifyAdmin, async (req, res) => {
+  const { nama } = req.body;
+  await db.run("INSERT INTO kategori (nama) VALUES (?)", [nama]);
+  res.json({ success: true });
+});
+
+app.delete("/kategori/:id", verifyAdmin, async (req, res) => {
+  await db.run("DELETE FROM kategori WHERE id_kategori=?", [req.params.id]);
+  res.json({ success: true });
+});
+
+/* =========================
+   LAYANAN (INI YANG ERROR KEMARIN)
+========================= */
 app.get("/layanan", async (_, res) => {
   const rows = await db.all(`
     SELECT layanan.*, kategori.nama AS nama_kategori
@@ -136,22 +140,69 @@ app.get("/layanan", async (_, res) => {
     ORDER BY id_layanan DESC
   `);
 
-  res.json(rows.map(r => ({ ...r, images: r.images ? JSON.parse(r.images) : [] })));
+  res.json(rows.map(r => ({
+    ...r,
+    images: r.images ? JSON.parse(r.images) : []
+  })));
+});
+
+app.post(
+  "/layanan",
+  verifyAdmin,
+  uploadLayanan.array("images", 10),
+  async (req, res) => {
+    const { nama, deskripsi, harga, id_kategori } = req.body;
+    const images = JSON.stringify(req.files.map(f => f.filename));
+
+    await db.run(
+      `INSERT INTO layanan (nama, deskripsi, harga, id_kategori, images)
+       VALUES (?, ?, ?, ?, ?)`,
+      [nama, deskripsi, harga, id_kategori || null, images]
+    );
+
+    res.json({ success: true });
+  }
+);
+
+app.put(
+  "/layanan/:id",
+  verifyAdmin,
+  uploadLayanan.array("images", 10),
+  async (req, res) => {
+    const { nama, deskripsi, harga, id_kategori } = req.body;
+
+    let query = `
+      UPDATE layanan
+      SET nama=?, deskripsi=?, harga=?, id_kategori=?
+    `;
+    const params = [nama, deskripsi, harga, id_kategori || null];
+
+    if (req.files.length) {
+      query += ", images=?";
+      params.push(JSON.stringify(req.files.map(f => f.filename)));
+    }
+
+    query += " WHERE id_layanan=?";
+    params.push(req.params.id);
+
+    await db.run(query, params);
+    res.json({ success: true });
+  }
+);
+
+app.delete("/layanan/:id", verifyAdmin, async (req, res) => {
+  await db.run("DELETE FROM layanan WHERE id_layanan=?", [req.params.id]);
+  res.json({ success: true });
 });
 
 /* =========================
-   SERVER START (PENTING)
+   SERVER
 ========================= */
 const PORT = process.env.PORT || 3001;
-
 app.listen(PORT, () => {
-  console.log("Backend running on port " + PORT);
+  console.log("Backend running on port", PORT);
 });
 
-app.get("/", (req, res) => {
-  res.json({
-    status: "OK",
-    message: "Amanah Laundry API is running"
-  });
+app.get("/", (_, res) => {
+  res.json({ status: "OK", message: "Amanah Laundry API running" });
 });
-
