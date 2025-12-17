@@ -1,5 +1,4 @@
-// src/admin/AdminLogin.jsx
-import React, { useState } from "react";
+import { useState } from "react";
 import "../assets/LoginAdmin.css";
 import { FaUser, FaLock } from "react-icons/fa";
 
@@ -7,16 +6,22 @@ export default function AdminLogin() {
   const [form, setForm] = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
 
-  const handleChange = (e) => setForm({ ...form, [e.target.name]: e.target.value });
+  const API_URL = import.meta.env.VITE_API_URL;
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
 
     try {
-      const res = await fetch("http://localhost:3001/admin/login", {
+      const res = await fetch(`${API_URL}/admin/login`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify(form),
       });
 
@@ -24,25 +29,21 @@ export default function AdminLogin() {
       setLoading(false);
 
       if (!res.ok) {
-        // tampilkan pesan dari server bila ada
         alert(data?.message || "Login gagal");
         return;
       }
 
-      if (data.success && data.token) {
-        // simpan token (key: "token")
+      if (data.token) {
         localStorage.setItem("token", data.token);
-
-        alert("Login Berhasil!");
-        // arahkan ke dashboard admin (route /admin)
+        alert("Login berhasil");
         window.location.href = "/admin";
       } else {
-        alert("Login gagal: Respons tidak valid");
+        alert("Login gagal: token tidak diterima");
       }
     } catch (err) {
       console.error("Login error:", err);
       setLoading(false);
-      alert("Terjadi kesalahan saat menghubungi server.");
+      alert("Terjadi kesalahan saat menghubungi server");
     }
   };
 
@@ -57,8 +58,8 @@ export default function AdminLogin() {
             <FaUser className="input-icon" />
             <input
               type="text"
-              placeholder="Username"
               name="username"
+              placeholder="Username"
               value={form.username}
               onChange={handleChange}
               required
@@ -69,15 +70,15 @@ export default function AdminLogin() {
             <FaLock className="input-icon" />
             <input
               type="password"
-              placeholder="Password"
               name="password"
+              placeholder="Password"
               value={form.password}
               onChange={handleChange}
               required
             />
           </div>
 
-          <button className="login-btn" type="submit" disabled={loading}>
+          <button type="submit" className="login-btn" disabled={loading}>
             {loading ? "Memproses..." : "Login"}
           </button>
         </form>
