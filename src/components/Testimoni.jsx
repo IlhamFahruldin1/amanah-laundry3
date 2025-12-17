@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import "../assets/Testimoni.css";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 export default function Testimoni() {
   const [testimonis, setTestimonis] = useState([]);
   const [name, setName] = useState("");
@@ -8,61 +10,61 @@ export default function Testimoni() {
   const [rating, setRating] = useState(5);
   const [images, setImages] = useState([]);
 
-  // ================= GET TESTIMONI DARI BACKEND =================
+  // ================= GET TESTIMONI =================
   useEffect(() => {
-    fetch("http://localhost:3001/testimoni")
+    fetch(`${API_URL}/testimoni`)
       .then((res) => res.json())
       .then((data) => setTestimonis(data))
       .catch((err) => console.error("Error fetch:", err));
   }, []);
 
-  // ================= HANDLE UPLOAD MULTIPLE =================
+  // ================= HANDLE UPLOAD =================
   const handleMultipleUpload = (e) => {
-    const files = Array.from(e.target.files);
-    setImages(files);
+    setImages(Array.from(e.target.files || []));
   };
 
-  // ================= KIRIM TESTIMONI KE BACKEND =================
+  // ================= KIRIM TESTIMONI =================
   const sendTestimoni = async () => {
+    if (!name || !text) {
+      alert("Nama dan testimoni wajib diisi");
+      return;
+    }
+
     const form = new FormData();
     form.append("nama", name);
     form.append("pesan", text);
     form.append("rating", rating);
 
-    images.forEach((img) => {
-      form.append("images", img); // sesuai multer.array("images")
-    });
+    images.forEach((img) => form.append("images", img));
 
-    await fetch("http://localhost:3001/testimoni", {
+    await fetch(`${API_URL}/testimoni`, {
       method: "POST",
       body: form,
     });
 
-    // Reset form
+    // reset form
     setName("");
     setText("");
     setRating(5);
     setImages([]);
 
-    // Refresh data tanpa reload page
-    fetch("http://localhost:3001/testimoni")
+    // reload data
+    fetch(`${API_URL}/testimoni`)
       .then((res) => res.json())
       .then((data) => setTestimonis(data));
   };
 
   return (
     <div className="testimoni-container">
-
-      {/* ================= LIST TESTIMONI ================= */}
+      {/* ================= LIST ================= */}
       <h2 className="judul-besar">Testimoni Pelanggan</h2>
 
       <div className="list-wrapper">
         {testimonis.map((item) => (
           <div className="card-testimoni" key={item.id_testimoni}>
-            
             <div className="card-header">
               <div className="profile-icon">
-                {item.nama.charAt(0).toUpperCase()}
+                {item.nama?.charAt(0).toUpperCase()}
               </div>
 
               <div>
@@ -85,25 +87,24 @@ export default function Testimoni() {
 
             <div className="isi">{item.pesan}</div>
 
-            {/* Foto lebih dari 1 */}
             {item.images?.length > 0 && (
               <div className="foto-grid">
                 {item.images.map((img, idx) => (
                   <img
                     key={idx}
-                    src={`http://localhost:3001/uploads/${img}`}
+                    src={`${API_URL}/uploads/${img}`}
                     className="foto-testimoni"
-                    alt=""
+                    alt="testimoni"
+                    loading="lazy"
                   />
                 ))}
               </div>
             )}
-
           </div>
         ))}
       </div>
 
-      {/* ================= FORM TESTIMONI ================= */}
+      {/* ================= FORM ================= */}
       <div className="form-box">
         <h3>Kirim Testimoni</h3>
 
@@ -127,14 +128,16 @@ export default function Testimoni() {
           onChange={(e) => setRating(Number(e.target.value))}
           className="input-control"
         >
-          <option value="5">5 Bintang</option>
-          <option value="4">4 Bintang</option>
-          <option value="3">3 Bintang</option>
-          <option value="2">2 Bintang</option>
-          <option value="1">1 Bintang</option>
+          <option value={5}>5 Bintang</option>
+          <option value={4}>4 Bintang</option>
+          <option value={3}>3 Bintang</option>
+          <option value={2}>2 Bintang</option>
+          <option value={1}>1 Bintang</option>
         </select>
 
-        <label className="label-upload">Upload Foto (boleh lebih dari 1)</label>
+        <label className="label-upload">
+          Upload Foto (boleh lebih dari 1)
+        </label>
         <input
           type="file"
           accept="image/*"
@@ -144,7 +147,7 @@ export default function Testimoni() {
 
         {images.length > 0 && (
           <div className="preview-multiple">
-            {Array.from(images).map((file, index) => (
+            {images.map((file, index) => (
               <img
                 key={index}
                 src={URL.createObjectURL(file)}
