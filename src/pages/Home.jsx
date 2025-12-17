@@ -43,9 +43,9 @@ export default function Home() {
           <div className="hero-image-wrapper">
             <img src={Foto2} alt="Laundry Service" className="hero-main-img" />
 
-            <div className="hero-badge badge-top">🚚 Pengambilan</div>
+            <div className="hero-badge badge-top">🚚 Jemput & Antar Gratis</div>
             <div className="hero-badge badge-middle">⚡ Kering Cepat</div>
-            <div className="hero-badge badge-left">🧺 Pencucian</div>
+            <div className="hero-badge badge-left">🧺 Pencucian & Wangi</div>
             <div className="hero-badge badge-bottom">🧼 Pakaian Bersih</div>
           </div>
         </div>

@@ -50,7 +50,7 @@ export default function Kontak() {
               <div className="info-item">
                 <i className="bi bi-geo-alt"></i>
                 <h3>Alamat</h3>
-                <p>Desan Bacin Kudus</p>
+                <p>Desa Bacin Kudus</p>
               </div>
             </div>
 
@@ -68,7 +68,7 @@ export default function Kontak() {
               <div className="info-item">
                 <i className="bi bi-envelope"></i>
                 <h3>Email</h3>
-                <p>support@laundryclean.id</p>
+                <p>AmanahLaundry@gmail.com</p>
               </div>
             </div>
           </div>

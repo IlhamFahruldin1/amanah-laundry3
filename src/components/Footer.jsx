@@ -50,7 +50,7 @@ export default function Footer() {
           <ul className="col-list">
             <li><a href="#kiloan">Laundry Kiloan</a></li>
             <li><a href="#express">Laundry Express</a></li>
-            <li><a href="#sepatu">Laundry Sepatu</a></li>
+            <li><a href="#sepatu">Laundry Satuan</a></li>
             <li><a href="#setrika">Setrika Saja</a></li>
           </ul>
         </div>
@@ -61,8 +61,8 @@ export default function Footer() {
           <ul className="contact-list">
             <li>📞 <a href="tel:+123456789">+123-456-789</a></li>
             <li>✉️ <a href="mailto:Laundryin.id@gmail.com">AmanahLaundry@gmail.com</a></li>
-            <li>📍 Kudu Desa Bacin</li>
-            <li>⏰ Setiap Hari: 9AM - 10PM</li>
+            <li>📍 Desa Bacin, Kec. Bae, Kabupaten Kudus</li>
+            <li>⏰ Setiap Hari: 08.00 - 18.00</li>
           </ul>
         </div>
       </div>
